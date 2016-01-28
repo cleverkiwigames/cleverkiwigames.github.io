@@ -1,0 +1,62 @@
+body {
+    padding-top: 50px;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+.clear {
+    height: 0;
+    clear: both;
+}
+
+.row:nth-child(even) {
+    background-color: #ded;
+}
+.sect1, .sect2 {
+    padding: 2em 2em;
+    text-align: center;
+}
+.sect1 img, .sect2 img {
+    display: block;
+    margin: auto auto;
+}
+
+@media (min-width: 768px) {
+    .sect1, .sect2 {
+    }
+}
+
+@media (min-width: 992px) {
+    .sect1 {
+      text-align: left;
+    }
+    .sect1 .content {
+        padding: 2em;
+    }
+    .sect1 img {
+        float: right;
+        padding: 2em 0;
+        padding-left: 2em;
+    }
+
+    .sect2 {
+      text-align: right;
+    }
+    .sect2 .content {
+        padding: 2em;
+    }
+    .sect2 img {
+        float: left;
+        padding: 2em 0;
+        padding-right: 2em;
+    }
+}
+
+/*
+@media (min-width: 768px) {
+    .sect1 {
+      background-color: #dee;
+    }
+}
+*/
