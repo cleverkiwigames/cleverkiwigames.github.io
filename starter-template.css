@@ -10,6 +10,12 @@ body {
     clear: both;
 }
 
+/* http://stackoverflow.com/questions/12044801/responsive-web-design-and-resizing-images */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
 .row:nth-child(even) {
     background-color: #ded;
 }
