@@ -11,9 +11,18 @@ body {
 }
 
 /* http://stackoverflow.com/questions/12044801/responsive-web-design-and-resizing-images */
-img {
+img.row-img {
     max-width: 100%;
     height: auto;
+}
+
+/*img.store-badge {
+    width: 300px;
+}*/
+
+footer {
+    padding: 3em 0;
+    background-color: #ded;
 }
 
 .row:nth-child(even) {
@@ -23,13 +32,46 @@ img {
     padding: 2em 2em;
     text-align: center;
 }
-.sect1 img, .sect2 img {
+.sect1 img.row-img, .sect2 img.row-img {
     display: block;
     margin: auto auto;
 }
 
+.badges {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+#social-badges {
+    text-align: center;
+}
+
+.badges span {
+    display: block;
+}
+
+.left-badge {
+    padding-top: 5px;
+    margin-bottom: 20px;
+}
+
+@media (min-width: 512px) {
+    .left-badge {
+        float: left;
+        padding-top: 5px;
+    }
+
+    .right-badge {
+        float: right;
+    }
+}
+
 @media (min-width: 768px) {
     .sect1, .sect2 {
+    }
+
+    .badges span {
+        display: block;
     }
 }
 
@@ -40,7 +82,7 @@ img {
     .sect1 .content {
         padding: 2em;
     }
-    .sect1 img {
+    .sect1 img.row-img {
         float: right;
         padding: 2em 0;
         padding-left: 2em;
@@ -52,10 +94,15 @@ img {
     .sect2 .content {
         padding: 2em;
     }
-    .sect2 img {
+    .sect2 img.row-img {
         float: left;
         padding: 2em 0;
         padding-right: 2em;
+    }
+
+    .badges {
+        max-width: 530px;
+        margin-left: 80px;
     }
 }
 
