@@ -40,12 +40,17 @@
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
               <!-- <li class="active"><a href="#">Home</a></li> -->
+            <li><a style="color: #ddd" href="#kudosu-row">Kudosu</a></li>
             <li><a style="color: #ddd" href="#trace-row">TRACE: Duplex</a></li>
             <li><a style="color: #ddd" href="#about-row">About</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
+
+    <!--<div id="trace-vid" style="position: fixed; top: 50%; left: 5%">
+        <iframe src="https://www.youtube.com/embed/vMG-HZx4LPM" frameborder="0" allowfullscreen></iframe>
+    </div>-->
 
     <div class="container-fluid">
 
@@ -56,11 +61,32 @@
         </p>
       </div>
 
+      <div id="kudosu-row" class="row sect2">
+        <!-- <div id="port" style="position: relative">
+            <img id="play-trace-vid" style="position: absolute; width: 10%; top:
+            50%; left: 50%; margin-left: -5%; margin-top: -5%"
+            src="play_vid.png" /> -->
+        <img class="row-img" id="trace-img" src="kudosu.png" alt="" />
+            <!-- </div> -->
+        <div class="content">
+            <h2>Kudosu</h2>
+            <p class="lead">
+                Not much is known about Kudosu yet, other than the fact that the
+                name bears a striking resemblance to another well-known game.
+                Rumors have it that it is due for release in February 2016...
+            </p>
+        </div>
+        <div class="clear"></div>
+      </div>
+
+
       <div id="trace-row" class="row sect2">
-        <!-- <img id="play-trace-vid" style="position: absolute; width: 10%"
-        src="play_vid.png" /> -->
+        <!-- <div id="port" style="position: relative">
+            <img id="play-trace-vid" style="position: absolute; width: 10%; top:
+            50%; left: 50%; margin-left: -5%; margin-top: -5%"
+            src="play_vid.png" /> -->
         <img class="row-img" id="trace-img" src="trace.png" alt="" />
-        <!--<iframe width="720" height="480" src="https://www.youtube.com/embed/vMG-HZx4LPM" frameborder="0" allowfullscreen></iframe>-->
+            <!-- </div> -->
         <div class="content">
             <h2>TRACE:&nbsp;Duplex</h2>
             <p class="lead">
@@ -189,14 +215,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
     <script>
-        // function parsePx(px) {
-        //     return parseInt(px.substring(0, px.indexOf('px')));
-        // }
 
-        // console.log($('#trace-img').width());
-        // var bcr = document.getElementById('trace-img').getBoundingClientRect();
-        // $('#play-trace-vid').css('top', bcr.top+bcr.height/2);
-        // $('#play-trace-vid').css('left', bcr.left+bcr.width/2);
+        $('#trace-img').click(function () {
+            $('#trace-vid');
+        });
     </script>
   </body>
 </html>

@@ -28,11 +28,11 @@ footer {
 .row:nth-child(even) {
     background-color: #ded;
 }
-.sect1, .sect2 {
+.row {
     padding: 2em 2em;
     text-align: center;
 }
-.sect1 img.row-img, .sect2 img.row-img {
+.row-img {
     display: block;
     margin: auto auto;
 }
@@ -76,25 +76,25 @@ footer {
 }
 
 @media (min-width: 992px) {
-    .sect1 {
-      text-align: left;
+    .row:nth-child(even) {
+        text-align: left;
     }
-    .sect1 .content {
+    .row:nth-child(even) .content {
         padding: 2em;
     }
-    .sect1 img.row-img {
+    .row:nth-child(even) .row-img {
         float: right;
         padding: 2em 0;
         padding-left: 2em;
     }
 
-    .sect2 {
+    .row:nth-child(odd) {
       text-align: right;
     }
-    .sect2 .content {
+    .row:nth-child(odd) .content {
         padding: 2em;
     }
-    .sect2 img.row-img {
+    .row:nth-child(odd) .row-img {
         float: left;
         padding: 2em 0;
         padding-right: 2em;
@@ -102,7 +102,7 @@ footer {
 
     .badges {
         max-width: 530px;
-        margin-left: 80px;
+        margin-left: 97px;
     }
 }
 
