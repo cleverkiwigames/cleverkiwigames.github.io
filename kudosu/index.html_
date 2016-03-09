@@ -48,40 +48,9 @@
 
     <style>
 body {
-    margin: 0;
-    padding: 0;
-}
-
-.container-fluid {
-    margin: 0;
-    padding: 0;
-}
-
-.x {
-    margin: 0;
-    /* color: rgba(10, 74, 48, 0.8); */
-    background-color: #aaa;
+    color: rgba(10, 74, 48, 0.8);
+    background-color: #c4b9a1;
     background-image: url('../natural-paper.png');
-    text-align: center;
-    padding-bottom: 2em;
-}
-
-.y {
-    padding: 1em 2em;
-}
-
-a, a:hover, a:visited {
-    color: #333;
-}
-
-.twitter-tweet-rendered {
-    margin: auto;
-}
-
-@media (min-width: 512px) {
-    .y {
-        font-size: 1.5em;
-    }
 }
     </style>
 
@@ -90,14 +59,12 @@ a, a:hover, a:visited {
 
   <body>
     <div class="container-fluid">
-      <div class="x" class="starter-template">
-        <img style="width: 80%; opacity: 0.8;" src="kudosu_title.png" alt="Kudosu Title"/>
+      <div class="starter-template">
+        <img style="width: 80%; opacity: 0.8;" src="../kudosu_title.png" alt="Kudosu Title"/>
         <br/>
         <br/>
         <div id="game"></div>
         <script src="min.js"></script>
-        <br/>
-        <div style="margin: 0 auto;" class="addthis_sharing_toolbox"></div>
         <br/>
         <div>
             <!--<a
@@ -117,12 +84,12 @@ a, a:hover, a:visited {
                     width="210" />
             </a>
         </div>
-    </div>
-    <div class="y">
+        <br/>
+        <div style="margin: 0 auto;" class="addthis_sharing_toolbox"></div>
         <br/>
         <p style="text-align: left">
-        Kudosu is a number puzzle game with simple rules but a lot of depth -
-        relying on your basic instincts can have dire ramifications in Kudosu,
+        Kudosu is a number puzzle game with simple rules and a lot of depth.
+        Relying on your basic instincts can have dire ramifications in Kudosu,
         as the obvious move is often ill-advised.
         </p>
         <p style="text-align: left">
@@ -134,107 +101,23 @@ a, a:hover, a:visited {
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
         <p style="text-align: left">
-        However, these simple rules hide a challenge that can only be
+        However, these simple rules hide a depth that can only be
         appreciated through experience. You will begin to see patterns. They
         will often be incorrect. You may notice similarities between levels.
         They're actually very different...
         </p>
-    </div>
-    <div class="x y">
-        <h3 style="color: #444; font-size: 2em">Featured on</h3>
-        <div style="margin-top: 2em;">
-        <a href="http://3rd-strike.com/is-your-brain-ready-for-kudosu/">
-            <img src="logo-2.png" alt="3rd Strike" />
-        </a>
-        <p>
-        <a style="color: #333;" href="http://3rd-strike.com/is-your-brain-ready-for-kudosu/">
-            3rd Strike
-        </a>
-        </p>
-        </div>
-    </div>
-    <div class="y">
-        <div style="text-align: left; padding-bottom: 2em;">
-        <h3 style="text-align: center; margin-bottom: 1em; font-size: 2em;">Updates</h3>
-        <p>
-        We listen to the feedback and suggestions from people that are playing
-        our games, and we're dedicated to improving our games based on what
-        people are saying. Here's a rundown of all the updates in the pipeline, suggested
-        by players all over the web:
-        </p>
-        <table style="width: auto; margin: 0 auto;">
-            <tr>
-                <td>
-                    &#10004;&nbsp;&nbsp;
-                </td>
-                <td>Add a button to go straight to the next puzzle</td>
-            </tr>
-            <tr>
-                <td>
-                    &nbsp;&#10085;
-                </td>
-                <td>Highlight empty tiles when a tile is unclickable</td>
-            </tr>
-            <tr>
-                <td>
-                    &nbsp;&#10085;
-                </td>
-                <td>Add description to levels menu</td>
-            </tr>
-            <tr>
-                <td>
-                </td>
-                <td>Make transition animations faster</td>
-            </tr>
-            <tr>
-                <td>
-                </td>
-                <td>Add a button for going back to the level menu</td>
-            </tr>
-        </table>
-    </div>
-    </div>
-    <div class="x y" style="text-align: left; padding-bottom: 2em;">
-        <h3 style="text-align: center; margin-bottom: 1em; font-size:
-            2em;">Features</h3>
-        These are also lots of new features we hope to add as we get more
-        interest in the game - the more downloads we get, the more features
-        we'll be able to add!
+
         <br/>
+
+        <p style="text-align: left">
+        <strong>Kudosu has been featured on <a
+                href="http://3rd-strike.com/is-your-brain-ready-for-kudosu/">3rd
+                Strike</a>!</strong>
+        </p>
+
         <br/>
-        <table style="width: auto; margin: 0 auto;">
-            <tr>
-                <th></th>
-                <th style="padding-right: 2em;">Downloads</th>
-                <th>Features</td>
-            </tr>
-            <tr>
-                <td>&nbsp;&#10085;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                <td>100</td>
-                <td>More featured levels</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>200</td>
-                <td>Difficulty settings for Infinite Mode</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>500</td>
-                <td>Challenge mode: You and a friend are given a random puzzle,
-                or a set of random puzzles, and the first to solve them wins!</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>1000</td>
-                <td>An intuitive level designer so that you can create your own
-                puzzles!</td>
-            </tr>
-        </table>
-    </div>
-    </div>
-    <div class="y">
-        <p style="text-align: center; padding: 2em 4em;">
+
+        <p style="text-align: left">
         Clever Kiwi Games is an Irish independent game studio that tries to
         appeal to a mass casual audience by creating small games with cunning
         mechanics that provide a lot of replay value. We don't just want to
@@ -247,24 +130,59 @@ a, a:hover, a:visited {
         simple, small games for people that like to flex their mind muscles
         while they have fun!
         </p>
+
+        <div style="text-align: left">
+        <h3>Updates</h3>
+        We listen to the feedback and suggestions from people that are playing
+        our games, and we're dedicated to improving our games based on what
+        people are saying. The following is a list of updates we'll be
+        implementing soon:
+        <br/>
+        <h4>&nbsp;&nbsp;&nbsp;&nbsp;In Progress</h4>
+        <ul style="list-style: none">
+            <li>Upload to the iOS App Store</li>
+            <li>Make transition animations faster</li>
+            <li>Highlight empty tiles when a tile is unclickable</li>
+            <li>Add description to levels menu</li>
+            <li>Add button for going back to levels menu</li>
+        </ul>
+        <h4>&nbsp;&nbsp;&nbsp;&nbsp;Completed</h4>
+        <ul style="list-style: none; color: #888">
+            <li><em>Add a button to go straight to the next puzzle</em></li>
+        </ul>
+        <h3>Features</h3>
+        These are features we hope to add as we get more interest in the game -
+        the more downloads we get, the more features we'll be able to add!
+        <br/>
+        <br/>
+        <ul style="list-style: none">
+            <li><strong>100 downloads</strong>Difficulty settings for infinite
+            mode</li>
+            <li><strong>200 downloads</strong>More featured levels</li>
+            <li><strong>500 downloads</strong>Sharing a specific level for your friends to try</li>
+            <li><strong>1000 downloads</strong>Challenge mode, where you and a friend are given
+            a random puzzle, or a set of random puzzles, and the first to solve
+            them wins!</li>
+            <li><strong>2500 downloads</strong>Level designer</li>
+        </ul>
         </div>
       </div>
     </div><!-- /.container -->
 
-    <footer class="footer x">
+    <footer class="footer" style="background-color: rgba(255,255,255,0.3)">
         <div class="container">
-            <p class="text-muted" style="color: #555">
+            <p class="text-muted">
                 &copy; 2016 Clever Kiwi Games
 
                 <br/>
                 <br/>
 
-                Orchidee font by <a style="color: #333;" href="http://floodfonts.com">Felix Braden</a>.
+                Orchidee font by <a href="http://floodfonts.com">Felix Braden</a>.
 
                 <br/>
                 <br/>
 
-                Background texture provided by <a style="color: #333;"
+                Background texture provided by <a
                     href="http://www.transparenttextures.com">transparenttextures.com</a>.
 
                 <br/>
