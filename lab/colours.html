@@ -41,7 +41,7 @@
     <![endif]-->
 
     <style>
-        .img {
+        .img, .cvs {
             display: block;
             margin: auto;
         }
@@ -52,7 +52,7 @@
             margin-bottom: 3em;
         }
         @media (min-width: 768px) {
-            .img {
+            .img, .cvs {
                 float: left;
             }
             .text p {
@@ -78,9 +78,7 @@
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
               <!-- <li class="active"><a href="#">Home</a></li> -->
-            <li><a style="color: #ddd" href="#games">Games</a></li>
-            <li><a style="color: #ddd" href="#characters">Characters</a></li>
-            <li><a style="color: #ddd" href="#stories">Stories</a></li>
+            <li><a style="color: #ddd" href="index.html">Lab</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -93,29 +91,17 @@
     <div class="container-fluid">
 
       <div class="starter-template" style="margin-bottom: 3em;">
-        <h1>The Clever Kiwi Lab</h1>
-        <h2 class="lead">
-            Share to vote for the ideas you want to see more of!
-        </h2>
-        <p class="lead">
-            The lab is full of demos so click any to give them a try.
-        </p>
-        <img src="beaker.png" alt="Beaker" />
+        <h1>The Colours!</h1>
+        <!--<p class="lead">
+            </p>-->
       </div>
 
       <div class="lab-row">
           <div class="wrapper">
-              <a href="bsher/index.html"><img class="img" src="bsher.png" alt="" /></a>
+              <canvas class="cvs" width="500" height="100"></canvas>
               <div class="text" style="overflow: hidden; padding: 1em;">
-                  <h2><a href="bsher/index.html">Button Sherlock</a></h2>
-                  <h3>A Deductive Puzzle Game</h3>
+                  <h2>Coffee Rush</h2>
                   <p>
-                      In Button Sherlock you can press any button that's
-                      sticking up, and you win when all the buttons are down!
-                      Simple? Maybe not, because each button is linked to other
-                      buttons, and pressing a button will flip all the buttons
-                      it's connected to. Can you figure out how to get all pegs
-                      down without going around in circles?
                   </p>
               </div>
               <div style="clear: both"></div>
@@ -124,16 +110,10 @@
 
       <div class="lab-row">
           <div class="wrapper">
-              <a href="stf/index.html"><img class="img" src="stf.png" alt="" /></a>
+              <canvas class="cvs" width="500" height="100"></canvas>
               <div class="text" style="overflow: hidden; padding: 1em;">
-                  <h2><a href="stf/index.html">Sticky the Frog</a></h2>
-                  <h3>Scale a Well Like a Velcro Kangaroo</h3>
+                  <h2>Crushed Earth</h2>
                   <p>
-                      Sticky the Frog got stuck at the bottom of a well, and now
-                      it's filling up with water! Use his super-stickiness to
-                      cling to the walls and obstacles, but be quick, because
-                      the higher you get, the faster the water rises, and
-                      amphibians can only breathe under water for so long...
                   </p>
               </div>
               <div style="clear: both"></div>
@@ -142,36 +122,39 @@
 
       <div class="lab-row">
           <div class="wrapper">
-              <a href="colours.html"><img class="img" src="colours.png" alt="" /></a>
+              <canvas class="cvs" width="500" height="100"></canvas>
               <div class="text" style="overflow: hidden; padding: 1em;">
-                  <h2><a href="colours.html">Colours</a></h2>
-                  <h3>Colours!</h3>
+                  <h2>Bleep Bloop</h2>
                   <p>
-                    This isn't a game, but a gallery of experimental colour
-                    palettes. Feel free to make suggestions!
                   </p>
               </div>
               <div style="clear: both"></div>
           </div>
       </div>
 
-      <!--<div class="lab-row">
+      <div class="lab-row">
           <div class="wrapper">
-              <a href="animals.html"><img class="img" src="bsher.png" alt="" /></a>
+              <canvas class="cvs" width="500" height="100"></canvas>
               <div class="text" style="overflow: hidden; padding: 1em;">
-                  <h2><a href="animals.html">Animal Characters</a></h2>
+                  <h2>Designer Hospital</h2>
                   <p>
-                        This set of character designs are inspired by the animal
-                        kingdom! Share this page to show that you want more
-                        animal characters to be included in future Clever Kiwi
-                        Games releases. Follow @CleverKiwiGames on Instagram and
-                        Facebook to get notified of new character designs, and
-                        let us know what animals you want to see next!
                   </p>
               </div>
               <div style="clear: both"></div>
           </div>
-      </div>-->
+      </div>
+
+      <div class="lab-row">
+          <div class="wrapper">
+              <canvas class="cvs" width="500" height="100"></canvas>
+              <div class="text" style="overflow: hidden; padding: 1em;">
+                  <h2>Sterile</h2>
+                  <p>
+                  </p>
+              </div>
+              <div style="clear: both"></div>
+          </div>
+      </div>
 
 <div id="disqus_thread"></div>
 <script>
@@ -214,9 +197,49 @@ s.setAttribute('data-timestamp', +new Date());
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
     <script>
-
-        $('#trace-img').click(function () {
-            $('#trace-vid');
+        var colours = [
+            [
+                '#4D2B5E',
+                '#3C311D',
+                '#C4B9A1',
+                '#1C633D',
+                '#387C59',
+            ],
+            [
+                '#454138',
+                '#CEAE6B',
+                '#C4B9A1',
+                '#453A24',
+                '#918977',
+            ],
+            [
+                '#DB6D69',
+                '#CFC167',
+                '#6FC980',
+                '#00C475',
+                '#383254',
+            ],
+            [
+                '#696969',
+                '#C9C9C9',
+                '#E8E8E8',
+                '#6A43AB', // '#7A5BAB',
+                '#667F1C',
+            ],
+            [
+                '#FFFFFF',
+                '#C9C9C9',
+                '#7D7070',
+                '#647D68',
+                '#C9C9C9',
+            ],
+        ];
+        $('.cvs').each(function (i, cvs) {
+            var c = cvs.getContext('2d');
+            colours[i].forEach(function (col, j) {
+                c.fillStyle = col;
+                c.fillRect(j*100, 0, 100, 100);
+            });
         });
     </script>
 
