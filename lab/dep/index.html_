@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>[[[FULL_NAME]]]</title>
+    </head>
+    <body style="margin: 0; padding: 0; background-color: black">
+        <!--<div style="width: 50%; height: 300px;" id="cvs"></div>-->
+        <!-- `cordova.js` is required for the `deviceready` event. -->
+        <script src="cordova.js"></script>
+        <script src="js/debug.js"></script>
+        <!-- FILES -->
+        <script src="js/common.js"></script>
+        <script src="js/cocoon.js"></script>
+        <script src="js/dims.js"></script>
+        <script src="js/phaser.min.js"></script>
+        <script src="js/boot.js"></script>
+        <script src="js/load.js"></script>
+        <script src="index.js"></script>
+    </body>
+</html>

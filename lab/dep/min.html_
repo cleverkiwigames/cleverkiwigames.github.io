@@ -1,0 +1,13 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>[[[FULL_NAME]]]</title>
+    </head>
+    <body style="margin: 0; padding: 0; background-color: black">
+        <!--<div style="width: 50%; height: 300px;" id="cvs"></div>-->
+        <!-- `cordova.js` is required for the `deviceready` event. -->
+        <script src="cordova.js"></script>
+        <script src="min.js"></script>
+    </body>
+</html>
