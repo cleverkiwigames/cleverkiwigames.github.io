@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget 
 id="com.cleverkiwigames.[[[NAME_LOWER]]]" 
-version="1.0.23" 
+version="1.0.28" 
 xmlns="http://www.w3.org/ns/widgets"
 xmlns:cdv="http://cordova.apache.org/ns/1.0"
 xmlns:cocoon="http://cocoon.io/ns/1.0"
