@@ -1,0 +1,182 @@
+var GEOM = {
+    ptOfIntr: function (lines) {
+        // http://stackoverflow.com/a/4543530/497142
+        var fms = [this.lineFm(lines[0]), this.lineFm(lines[1])];
+        if (fms[0].vert || fms[1].vert) {
+            if (fms[0].vert && fms[1].vert) {
+                return null; // Parallel
+            }
+            if (fms[1].vert) {
+                fms = [fms[1], fms[0]];
+            }
+            // fms[0] is now vert, fms[1] is not
+            return {
+                x: fms[0].x,
+                y: (fms[1].C-fms[1].A*fms[0].x) / fms[1].B,
+            };
+        }
+
+        var d = fms[0].A*fms[1].B - fms[1].A*fms[0].B;
+        if (d == 0) {
+            return null;
+        }
+        return {
+            x: (fms[1].B*fms[0].C - fms[0].B*fms[1].C)/d,
+            y: (fms[0].A*fms[1].C - fms[1].A*fms[0].C)/d,
+        };
+    },
+
+    ptOfSegIntr: function (segs) {
+        var poi = this.ptOfIntr(segs);
+        return poi != null && this.isBetw(poi, segs[0]) && this.isBetw(poi, segs[1]) ? poi : null;
+    },
+
+    lineFm: function (line) {
+        if (line[0].x == line[1].x) { // Vertical line
+            return {
+                vert: true,
+                x: line[0].x,
+            };
+        }
+
+        var fm = {
+            vert: false,
+            A: -this.slope(line),
+            B: 1,
+        };
+        fm.C = line[0].x*fm.A + line[0].y*fm.B;
+        return fm;
+    },
+
+    isBetw: function (pt, pts) {
+        // http://stackoverflow.com/a/17693146/497142
+        return this.isWithin(
+            this.dist([pt, pts[0]]) + this.dist([pt, pts[1]]),
+            this.dist(pts),
+            0.1
+        );
+    },
+
+    isWithin: function (a, b, thresh) {
+        return Math.abs(a-b) < thresh;
+    },
+
+    dist: function (pts) {
+        return Math.sqrt(Math.pow(pts[0].x-pts[1].x, 2)+Math.pow(pts[0].y-pts[1].y, 2));
+    },
+
+    slope: function (line) {
+        var p = this.relPos(line[0], line[1]);
+        // TODO Handle `p.x == 0`.
+        return p.y / p.x;
+    },
+
+    relPos: function (p, orig) {
+        return {
+            x: p.x-orig.x,
+            y: p.y-orig.y,
+        };
+    },
+
+    // Quadrant
+    quad: function (p) {
+        if (p.y >= 0) {
+            if (p.x >= 0) {
+                return 0;
+            }
+            return 1;
+        }
+        if (p.x >= 0) {
+            return 3;
+        }
+        return 2;
+    },
+
+    mvInDir: function (orig, pt, off) {
+        if (orig.x == pt.x) {
+            if (orig.y == pt.y) {
+                return {x: orig.x, y: orig.y};
+            } else {
+                return {x: orig.x, y: orig.y + off*(pt.y > orig.y ? 1 : -1)};
+            }
+        }
+
+        var ang = Math.atan(this.slope([orig, pt]));
+        var q = this.quad(this.relPos(orig, pt));
+        // Need to adjust angle because atan only returns value in range
+        // [-PI/2, PI/2].
+        ang += q == 0 || q == 3 ? Math.PI : 0;
+        return {
+            x: orig.x+off*Math.cos(ang),
+            y: orig.y+off*Math.sin(ang),
+        };
+    },
+
+    mvInDir2: function (orig, pt, mag) {
+        if (orig.x == pt.x) {
+            if (orig.y == pt.y) {
+                return {x: orig.x, y: orig.y};
+            } else {
+                return {x: orig.x, y: orig.y + mag*(pt.y-orig.y)};
+            }
+        }
+
+        var ang = Math.atan(this.slope([orig, pt]));
+        var q = this.quad(this.relPos(orig, pt));
+        var d = this.dist([orig, pt]);
+        // Need to adjust angle because atan only returns value in range
+        // [-PI/2, PI/2].
+        ang += q == 0 || q == 3 ? Math.PI : 0;
+        return {
+            x: orig.x+mag*d*Math.cos(ang),
+            y: orig.y+mag*d*Math.sin(ang),
+        };
+    },
+
+    eq: function (a, b, thresh) {
+        thresh = thresh || 0;
+        return this.isWithin(a.x, b.x, thresh) && this.isWithin(a.y, b.y, thresh);
+    },
+
+    strictEq: function (a, b) {
+        return a.x == b.x && a.y == b.y;
+    },
+
+    // Rotate a point around another point.
+    pivot: function(p, pivot, rot) {
+        // var mag = GEOM.dist([p, pivot]);
+        // var m = Math.atan((pivot.y-p.y)/(pivot.x-p.x)); // TODO account for horizontal
+        // return {
+        //     x: pivot.x+mag*Math.sin(rot+m),
+        //     y: pivot.y+mag*Math.cos(rot+m),
+        // };
+
+        // http://stackoverflow.com/a/15109215/497142
+        return {
+            x: Math.cos(rot)*(p.x-pivot.x)-Math.sin(rot)*(p.y-pivot.y)+pivot.x,
+            y: Math.sin(rot)*(p.x-pivot.x)+Math.cos(rot)*(p.y-pivot.y)+pivot.y,
+        };
+    },
+
+    ptsAdd: function(pts) {
+        var p = this.clonePt(this.orig);
+        pts.forEach(function (pt) {
+            p = {x: p.x+pt.x, y: p.y+pt.y};
+        });
+        return p;
+    },
+
+    ptsSub: function(a, b) {
+        return {x: a.x-b.x, y: a.y-b.y};
+    },
+
+    invert: function(pt) {
+        return this.ptsSub(this.orig, pt);
+    },
+
+    orig: {x: 0, y: 0},
+
+    clonePt: function (pt) {
+        return {x: pt.x, y: pt.y};
+    },
+};
