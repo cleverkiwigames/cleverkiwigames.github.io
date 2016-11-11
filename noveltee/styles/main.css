@@ -1,0 +1,303 @@
+html, body, ul, h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: rgb(76, 172, 255);
+    background-image: radial-gradient(at 50% , #b4b5c8 0%, #54569c 100%);
+    font-family: calibri;
+    color: white;
+}
+
+input, textarea {
+    font-family: calibri;
+    color: #555;
+    padding: 4px;
+}
+
+#err {
+    background-color: #ed3a44;
+    border-radius: 2px;
+}
+
+#wrapper {
+    width: 300px;
+    margin: 0 auto;
+}
+
+#logo {
+    display: block;
+    margin: 0 auto;
+    margin-top: 2em;
+}
+
+#menu {
+    padding: 1em 0;
+    text-align: center;
+}
+
+#logged-out {
+    margin-top: 0.5em;
+    margin-right: 50px;
+}
+
+#menu * {
+    display: inline-block;
+}
+
+#home {
+    float: left;
+}
+
+#user-menu {
+    display: block;
+    text-align: center;
+}
+
+.name {
+    margin-top: 0.5em;
+}
+
+#logOut {
+    float: right;
+}
+
+.clear {
+    clear: both;
+    margin-bottom: 1em;
+}
+
+#create, #login {
+    text-align: center;
+    margin-bottom: 1em;
+    width: 300px;
+    border-radius: 2px;
+}
+
+#create a, #login a {
+    display: block;
+    padding: 0.5em 0;
+    width: 100%;
+    color: #54569c;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 2px;
+}
+
+#create a {
+    background-color: white;
+}
+
+ul {
+    list-style: none;
+}
+
+.story {
+    position: relative;
+    overflow: auto;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+}
+
+.title {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.story img {
+    width: 50px;
+    float: right;
+    margin: 8px;
+}
+
+.waiting .state {
+    right: 64px;
+}
+
+.profPic {
+    border-radius: 25px;
+}
+
+.ready, .done {
+    cursor: pointer;
+}
+
+.item {
+    background-color: white;
+    margin-left: 10px;
+    width: 208px;
+    height: 48px;
+    padding: 8px;
+}
+
+.state {
+    text-align: right;
+    font-style: italic;
+}
+
+.ready {
+    background-color: #f6bb61;
+    color: #f6bb61;
+}
+.waiting {
+    background-color: #ed3a44;
+    color: #ed3a44;
+}
+.done {
+    background-color: #1fd2cc;
+    color: #1fd2cc;
+}
+
+.ready .state {
+    color: #815512;
+}
+.waiting .state {
+    color: #710a10;
+}
+.done .state {
+    color: #0f6662;
+}
+
+.push {
+    margin-bottom: 1em;
+}
+
+#story-name input {
+    border: none;
+    display: inline-block;
+    width: 100%;
+}
+
+#prev {
+    margin: 10px 10px;
+}
+
+#login {
+    background-color: #1fd2cc;
+}
+
+#login a {
+    color: white;
+}
+
+#loading {
+    margin-top: 5em;
+    text-align: center;
+}
+
+#info {
+    background-color: #54569c;
+    border-radius: 1em;
+    padding: 0.8em 1em;
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+/*
+ * SECTIONS
+ */
+
+.section {
+    background-color: #f6bb61;
+    border: 8px solid #f6bb61;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.section .header {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 4px;
+}
+
+.section .body {
+    background-color: white;
+    border-radius: 2px;
+    color: #555;
+}
+
+.section .footer {
+    margin: 4px;
+    margin-top: 12px;
+    text-align: right;
+}
+
+.section .footer a {
+    background-color: white;
+    padding: 0.2em 0.8em;
+    border-radius: 2px;
+    text-decoration: none;
+    margin: 0 0.5em;
+    font-weight: bold;
+}
+
+.section.orange .footer a {
+    color: #f6bb61;
+}
+
+.section.green .footer a {
+    color: #1fd2cc;
+}
+
+.section.red .footer a {
+    color: #ed3a44;
+}
+
+.people .body {
+    min-height: 70px;
+    text-align: center;
+    padding: 0em 0.5em;
+}
+
+.people .body a {
+    display: inline-block;
+    margin: 10px;
+    border-radius: 50px;
+}
+
+.people .body a div {
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    opacity: 0.5;
+}
+
+.people .body a.friend:hover div {
+    background-image: url('../imgs/add.png');
+}
+
+.people .body a.collab:hover div {
+    background-image: url('../imgs/rem.png');
+}
+
+.red {
+    background-color: #ed3a44;
+    border-color: #ed3a44;
+}
+.orange {
+    background-color: #f6bb61;
+    color: #f6bb61;
+}
+.green {
+    background-color: #1fd2cc;
+    border-color: #1fd2cc;
+}
+
+.section.people.red {
+    display: none;
+}
+
+.section.people.red.show {
+    display: block;
+}
+
+.section textarea {
+    min-height: 5em;
+}
+
+.section textarea, .section input {
+    border: none;
+    border-radius: 2px;
+    width: 100%;
+}

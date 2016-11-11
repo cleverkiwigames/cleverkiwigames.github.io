@@ -1,0 +1,113 @@
+<html>
+<head>
+    <meta property="fb:app_id"             content="1658577094353856" />
+    <meta property="og:type"               content="article" />
+    <meta property="og:title"              content="Your friends' stories on Noveltee" />
+    <meta property="og:description"        content="See what your friends wrote with Noveltee!" />
+    <meta property="og:image"              content="imgs/logo.png" />
+    <link rel="stylesheet" href="styles/main.css" />
+</head>
+<body></body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.5.2/firebase.js"></script>
+<script>
+var noRedirect = true;
+
+var onRender = function (loggedIn) {
+    $('#main').html('<div id="loading"><img src="imgs/loading.svg" alt="Loading" width="50px" /></div>');
+
+    var storyId = getURLParameter('id');
+    firebase.database().ref('stories/'+storyId).once('value', function (snap) {
+        var story = snap.val();
+
+        $('#main').html(
+            '<div class="green section">'+
+                '<h3 class="header">'+story.name+'</h3>'+
+                '<div id="text"></div>'+
+                '<div id="ft" class="footer" style="text-align: center">'+
+                    // '<a id="share" href="#">Share</a>'+
+                    '<div class="fb-like" '+
+                        'data-href="'+window.location+'" '+
+                        'data-layout="standard" '+
+                        'data-action="like" '+
+                        'data-share="true" '+
+                        'data-colorscheme="light" '+
+                        'data-show-faces="true">'+
+                    '</div>'+
+                '</div>'+
+            '</div>'+
+            '<div class="orange section">'+
+                '<div id="auths" style="text-align: center"></div>'+
+            '</div>'+
+            (loggedIn
+                ? ''
+                : '<div id="create"><a href="create.html">Create your own story!</a></div>')+
+            ''
+        );
+
+        var auths = story.collabs;
+        // var curAuthIdx = -1;
+        // story.collabs.forEach(function (collab, i) {
+        //     if (collab.uid == user.uid) {
+        //         curAuthIdx = i+1;
+        //     }
+        // });
+        // if (curAuthIdx <= 0) {
+        //     if (story.author == user.uid) {
+        //         curAuthIdx = 0;
+        //     } else {
+        //         console.error('current user not involved in story', storyId, user.uid);
+        //         return;
+        //     }
+        // }
+
+        withFB(function (FB) {
+            FB.XFBML.parse(document.getElementById('ft'));
+
+            auths.forEach(function (auth) {
+                var img = $('<img style="margin: 0 10px" src="imgs/loading.svg" alt="Loading" />');
+                $('#auths').append(img);
+                FB.api("/"+auth.fbId+"/picture?redirect=0", function (resp) {
+                    if (resp.error) {
+                        console.error(resp.error);
+                        return;
+                    }
+                    img.addClass('profPic');
+                    img.attr('src', resp.data.url);
+                });
+            });
+
+            var waitingOnIdx = story.chaps.length % auths.length;
+            if (story.chapsLeft == 0) {
+                $('#text').html('');
+                story.chaps.forEach(function (chap) {
+                    $('#text').append('<p>'+chap.text+'</p>');
+                });
+            } else {
+                // TODO Redirect.
+                $('#err').html("This story isn't finished yet!");
+            }
+
+            $('#share').click(function () {
+                FB.ui({
+                    method: 'share',
+                    action_type: 'og.likes',
+                    href: ''+window.location,
+                }, function (resp) {
+                    console.log(resp);
+                });
+            });
+        });
+    });
+};
+
+var onDeAuthd = function () {
+    onRender(false);
+};
+
+var onAuthd = function () {
+    onRender(true);
+}
+</script>
+<script src="js/nv.js"></script>
+</html>

@@ -1,0 +1,73 @@
+<html>
+<head>
+    <link rel="stylesheet" href="styles/main.css" />
+</head>
+<body></body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.5.2/firebase.js"></script>
+<script>
+var onAuthd = function (user) {
+    $('#main').html('<center style="margin-top: 5em"><img src="imgs/loading.svg" alt="Loading" width="50px" /></center>');
+
+    var storyId = getURLParameter('id');
+    firebase.database().ref('stories/'+storyId).once('value', function (snap) {
+        $('#main').html(
+            '<div class="section">'+
+                '<h3 id="story-name" class="header">'+snap.val().name+'</h3>'+
+                '<div id="prev"></div>'+
+                '<div id="text"></div>'+
+                '<div class="footer">500 letters allowed</div>'+
+            '</div>'+
+            '<div id="create"></div>'
+        );
+
+        var story = snap.val();
+        var auths = story.collabs;
+        var curAuthIdx = -1;
+        auths.forEach(function (collab, i) {
+            if (collab.uid == user.uid) {
+                curAuthIdx = i;
+            }
+        });
+        if (curAuthIdx < 0) {
+            console.error('current user not involved in story', storyId, user.uid);
+            return;
+        }
+
+        var waitingOnIdx = story.chaps.length % auths.length;
+        if (story.chapsLeft > 0 && waitingOnIdx == curAuthIdx) {
+            $('#prev').html(
+                '<div>'+story.chaps[story.chaps.length-1].text+'</div>'
+            );
+            $('#text').html(
+                '<textarea placeholder="And then..." id="pro"></textarea>'
+            );
+            var publish = function () {
+                var updates = {};
+                updates['chaps/'+story.chaps.length+'/text'] = $('#pro').val();
+                updates['chapsLeft'] = story.chapsLeft-1;
+                firebase.database().ref('stories/'+storyId).update(updates, function (err) {
+                    if (err) {
+                        console.error(err);
+                        return;
+                    }
+                    // TODO Show that it was published
+                    window.location='index.html';
+                });
+            };
+            $('#pro').keydown(function (e) {
+                if (e.which === 13) {
+                    e.preventDefault();
+                    publish();
+                }
+            });
+            $('#create').html($('<a href="#">Publish</a>').click(publish));
+        } else {
+            $('#err').html("It's not your turn to write a chapter for this story!");
+        }
+
+    });
+};
+</script>
+<script src="js/nv.js"></script>
+</html>

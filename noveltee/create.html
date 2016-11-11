@@ -1,0 +1,51 @@
+<html>
+<head>
+    <link rel="stylesheet" href="styles/main.css" />
+</head>
+<body></body>
+<script src="https://www.gstatic.com/firebasejs/3.5.2/firebase.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+<script>
+var noRedirect = true;
+
+var onReady = function () {
+    var publish = function () {
+    };
+
+    $('#main').html(
+        '<div class="green section">'+
+            '<h3 class="header">Story Name</h3>'+
+            '<input id="name" type="text" placeholder="The Story of..." /><br />'+
+        '</div>'+
+        '<div class="section">'+
+            '<h3 class="header">Prologue</h3>'+
+            '<textarea id="pro" placeholder="Once upon a time..."></textarea>'+
+            '<div class="footer">500 letters allowed</div>'+
+        '</div>'
+    ).append($('<div id="create"></div>').append($('<a href="#">Next</a>').click(function (e) {
+        e.preventDefault();
+        // window.location="collab.html?name="+encodeURI(btoa($('#name').val()))+
+        //     "&pro="+encodeURI(btoa($('#pro').val()));
+        window.location="collab.html?name="+encodeURI($('#name').val())+
+            "&pro="+encodeURI($('#pro').val());
+    })));
+
+    $("pro").keydown(function (e) {
+        if (e.which === 13) {
+            e.preventDefault();
+            f();
+        }
+    });
+};
+
+var onAuthd = function (user) {
+    onReady();
+};
+
+var onDeAuthd = function (user) {
+    $('#user-menu').html('<span></span>');
+    onReady();
+};
+</script>
+<script src="js/nv.js"></script>
+</html>

@@ -1,0 +1,1 @@
+fbIds table is for linking fbIds to uids when we retrieve friends from facebook

@@ -1,0 +1,139 @@
+<html>
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+    <script src="bgrins-spectrum-98454b5/spectrum.js"></script>
+    <link rel="stylesheet" href="bgrins-spectrum-98454b5/spectrum.css" />
+    <link rel="stylesheet" href="styles/main.css" />
+</head>
+<body></body>
+<script src="https://www.gstatic.com/firebasejs/3.5.2/firebase.js"></script>
+<script>
+var noRedirect = true;
+
+var onAuthd = function (user) {
+    $('#main').html(
+        '<div id="create"><a href="create.html">New Story</a></div>'+
+        '<div id="stories">'+
+            '<center style="margin-top: 5em">'+
+                '<img src="imgs/loading.svg" alt="Loading" width="50px" />'+
+            '</center>'+
+        '</div>'+
+        ''
+    );
+
+    firebase.database().ref('users/'+user.uid).on('value', function (snap) {
+        $('#stories').html('<ul id="story-list"></ul>');
+        var u = snap.val();
+        forEach(u.stories, function (k) {
+            var li = $('<li></li>');
+            $('#story-list').append(li);
+            firebase.database().ref('stories/'+k).on('value', function (snap) {
+                var story = snap.val();
+                var auths = story.collabs;
+                var curAuthIdx = -1;
+                auths.forEach(function (collab, i) {
+                    // FIXME Better solution is probably to go through all
+                    // `pre-users` stories when they're being added to user and
+                    // update them to have the user's ID.
+                    if (collab.uid == user.uid || collab.fbId == u.fbId) {
+                        curAuthIdx = i;
+                    }
+                });
+                if (curAuthIdx < 0) {
+                    // if (story.author == user.uid) {
+                    //     curAuthIdx = 0;
+                    // } else {
+                        console.error('current user not involved in story', k, user.uid);
+                        return;
+                    // }
+                }
+
+                var state = 'waiting';
+                var waitingOnIdx = story.chaps.length % auths.length;
+                if (story.chapsLeft == 0) {
+                    state = 'done';
+                    waitingOnIdx = -1;
+                } else if (waitingOnIdx == curAuthIdx) {
+                    state = 'ready';
+                    waitingOnIdx = -1;
+                }
+                var stateHtml = $('<div class="state">'+state+'</div>');
+                var img = $('<img src="imgs/loading.svg" alt="Loading" />');
+                if (state === 'ready') {
+                    stateHtml.html('Ready to continue');
+                    img.attr('src', 'imgs/ready.png');
+                    li.click(function () {
+                        window.location = 'next.html?id='+k;
+                    });
+                } else if (state === 'done') {
+                    // stateHtml.html('<span>Finished! Read this story</span>');
+                    stateHtml.html('Finished! Read this story');
+                    img.attr('src', 'imgs/done.png');
+                    li.click(function () {
+                        window.location = 'show.html?id='+k;
+                    });
+                }
+                li.removeClass()
+                    .addClass('story')
+                    .addClass(state)
+                    .html('')
+                    .append(img)
+                    .append($('<div class="item"></div>')
+                        .append('<div class="title">'+story.name+'</div>')
+                        .append(stateHtml)
+                        )
+                    .append('<div style="clear: both"></div>');
+                if (waitingOnIdx >= 0) {
+                    var auth = auths[waitingOnIdx];
+                    stateHtml.html('waiting on'); // <img class="img'+auth.fbId+'" src="imgs/loading.svg" alt="" width="50px"/>');
+                    withFB(function (FB) {
+                        FB.api("/"+auth.fbId+"/picture?redirect=0", function (resp) {
+                            if (resp.error) {
+                                console.error(resp.error);
+                                return;
+                            }
+                            img.addClass('profPic');
+                            img.attr('src', resp.data.url);
+                        });
+                    });
+                }
+            });
+        });
+    });
+};
+
+var onDeAuthd = function (prov) {
+    var popuMain = function (logIn) {
+        $('#main')
+            .html(
+                $('<div id="login"></div>')
+                    .append($('<a href="#">Log In with Facebook</a>').click(logIn))
+                    // .append(
+                    //     '<div class="fb-login-button" data-max-rows="1"'+
+                    //     'data-size="medium" data-show-faces="true"'+
+                    //     'data-auto-logout-link="true"></div>'+
+                    //     ''
+                    // )
+            )
+            .append('<div id="create"><a href="create.html">Create a new story</a></div>');
+    };
+    var logIn = function(e) {
+        e.preventDefault();
+        $('#main').html('<div id="loading"><img src="imgs/loading.svg" alt="Loading" width="50px" /></div>');
+        firebase.auth().signInWithPopup(prov).then(function (result) {
+            localStorage['fbToken'] = result.credential.accessToken;
+        }).catch(function (err) {
+            popuMain(logIn);
+            var msg = err.message;
+            if (err.code === 'auth/user-cancelled') {
+                msg = "You gotta authorise the Noveltee app on Facebook before you can use it!";
+            }
+            $('#err').html(msg);
+        });
+    };
+    popuMain(logIn);
+};
+</script>
+<script src="js/nv.js"></script>
+<script src="js/playout.js"></script>
+</html>

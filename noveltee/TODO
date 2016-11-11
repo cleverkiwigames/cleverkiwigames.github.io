@@ -1,0 +1,8 @@
+cache request results, such as image URLs
+add google analytics
+screens for logged out user
+security: sanitise outputs (inputs can't be sanitised because they're not
+    processed at the server end)
+fix errors with invited people:
+    need to refresh index twice
+    can't continue stories they were invited to

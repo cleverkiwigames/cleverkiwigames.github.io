@@ -1,0 +1,250 @@
+<html>
+<head>
+    <link rel="stylesheet" href="styles/main.css" />
+</head>
+<body></body>
+<script src="https://www.gstatic.com/firebasejs/3.5.2/firebase.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+<script>
+var collabs = [];
+
+var noRedirect = true;
+
+var onAuthd = function (user, fbToken) {withFB(function (FB) {
+    $('#main')
+        .html(
+            '<div id="info">'+
+                'Select your co-authors! Everyone<br />will get the chance to '+
+                'write<br />at least 2 sections of the story.'+
+            '</div>'+
+            '<div id="friend-select">'+
+                '<img src="imgs/loading.svg" alt="Loading" width="50px" />'+
+            '</div>'+
+            '<div id="create"></div>'
+        );
+
+    $('#friend-select').html(
+        '<div class="orange section people">'+
+            '<h3 class="header">Friends</h3>'+
+            '<div id="friends" class="body">'+
+                '<img src="imgs/loading_orange.svg" alt="Loading" width="50px" style="margin: 10px" />'+
+            '</div>'+
+            '<div class="footer">Did we miss someone? '+
+                '<a id="invite" href="#">Invite Friends</a>'+
+            '</div>'+
+        '</div>'+
+        '<div class="section people red">'+
+            '<h3 class="header">Invited</h3>'+
+            '<div id="invited" class="body"></div>'+
+        '</div>'+
+        '<div class="section people green">'+
+            '<h3 class="header">Co-authors</h3>'+
+            '<div id="collabs" class="body"></div>'+
+            '<div id="remaining" class="footer">You have 4 collaborators left</div>'+
+        '</div>'+
+        ''
+    );
+
+    var chgCollab = function (op, user) {
+        var i = -1;
+        collabs.forEach(function (collab, j) {
+            if (collab.fbId == user.fbId) {
+                i = j;
+            }
+        });
+        if (op === 'add') {
+            if (i == -1) {
+                collabs.push(user);
+            } else {
+                return;
+            }
+        } else if (op === 'rm') {
+            if (i >= 0) {
+                collabs.splice(i, 1);
+            } else {
+                return;
+            }
+        } else {
+            console.error('bad op: '+op);
+            return;
+        }
+
+        $('#collabs').html('');
+        collabs.forEach(function (collab) {
+            var a =
+                $('<a class="collab" href="#"><div></div></a>')
+                    .css('background-image', 'url("imgs/loading_green.svg")')
+                    .click(function () {
+                        chgCollab('rm', collab);
+                    });
+            $('#collabs').append(a);
+            FB.api("/"+collab.fbId+"/picture?redirect=0", function (resp) {
+                if (resp.error) {
+                    console.error(resp.error);
+                    return;
+                }
+                // TODO use indexes, spacing, default profile pic and
+                // spinner/opacity
+                a.css('background-image', 'url('+resp.data.url+')');
+            });
+        });
+        $('#remaining').html('You have '+(4-collabs.length)+' collaborators left');
+    };
+
+    // TODO cache profile pics/names
+
+    var imgIdCount = 0;
+    var selectables = function (elm, users, colour) {
+        elm.html('');
+        users.forEach(function (user) {
+            var a =
+                $('<a class="friend" href="#"><div></div></a>')
+                .click(function (e) {
+                    e.preventDefault();
+                    chgCollab('add', user);
+                }).css('background-image', 'url("imgs/loading_'+colour+'.svg")');
+            elm.append(a);
+            FB.api("/"+user.fbId+"/picture?redirect=0", function (resp) {
+                if (resp.error) {
+                    console.error(resp.error);
+                    return;
+                }
+                a.css('background-image', 'url('+resp.data.url+')');
+            });
+        });
+    };
+
+    $('#invite').click(function () {
+        FB.ui({
+            method: 'apprequests',
+            filters: ['app_non_users'],
+            message: 'Help me with a story, you write the next chapter!',
+        }, function (resp) {
+            if (!resp || resp.length == 0) {
+                return;
+            }
+            var to = resp.to.map(function (to) {
+                return {fbId: to, uid: null};
+            })
+            selectables($('#invited'), to, 'red');
+            $('.section.people.red').addClass('show');
+        });
+    });
+
+    FB.api("/me/friends?access_token="+fbToken, function (resp) {
+        if (resp.error) {
+            var err = resp.error;
+            if (err.type == 'OAuthException' && err.code == 190 &&
+                    err.error_subcode == 458) {
+                $('#err').html('You gotta authorise the Noveltee app on Facebook before you can use it!');
+            } else {
+                $('#err').html(err.message)
+            }
+            return;
+        }
+        var friendIds = [];
+        resp.data.forEach(function (user) {
+            var end = function () {
+                if (friendIds.length == resp.data.length) {
+                    selectables($('#friends'), friendIds, 'orange');
+                }
+            };
+
+            firebase.database().ref('fbIds/'+user.id).once('value').then(function (snap) {
+                friendIds.push({fbId: user.id, uid: snap.val()});
+                end();
+            }).catch(function () {
+                friendIds.push({fbId: user.id, uid: null});
+                end();
+            });
+        });
+    });
+
+    var popuLink = function (publish) {
+        $('#create').html($('<a href="#">Publish!</a>').click(publish));
+    };
+    var publish = function(e) {
+        e.preventDefault();
+
+        $('#create').html(
+            '<img src="imgs/loading.svg" alt="Loading" width="50px" />'
+        );
+
+        var NUM_CHAPS = [7, 11, 11, 9];
+        if (collabs.length < 1) {
+            $('#err').html('You gotta choose at least 1 friend to help!');
+            popuLink(publish);
+            return;
+        } else if (collabs.length > 4) {
+            $('#err').html('You can only get up to 4 friends to help!');
+            popuLink(publish);
+            return;
+        }
+
+        firebase.database().ref('users/'+user.uid+'/fbId').once('value').then(function (snap) {
+            var collabs_ = [{uid: user.uid, fbId: snap.val()}].concat(collabs);
+            var newStoryKey = firebase.database().ref().child('stories').push().key;
+            var updates = {};
+            updates['/users/'+user.uid+'/stories/'+newStoryKey] = true;
+            collabs_.forEach(function (collab) {
+                if (collab.uid) {
+                    updates['/users/'+collab.uid+'/stories/'+newStoryKey] = true;
+                } else {
+                    updates['/pre-users/'+collab.fbId+'/'+newStoryKey] = true;
+                }
+            });
+            updates['/stories/'+newStoryKey] = {
+                name: decodeURI(getURLParameter('name')),
+                author: user.uid,
+                collabs: collabs_,
+                chapsLeft: NUM_CHAPS[collabs_.length-2],
+                chaps: [{
+                    text: decodeURI(getURLParameter('pro')),
+                }],
+            };
+            firebase.database().ref().update(updates, function (err) {
+                if (err) {
+                    console.error(err);
+                    return;
+                }
+                // TODO Show that it was published
+                window.location='index.html';
+            });
+        }).catch(function (e) {
+            console.error(e);
+        });
+    };
+    popuLink(publish);
+});};
+
+// NOTE Largely copied from that in index.html.
+var onDeAuthd = function (prov) {
+    var popuMain = function (logIn) {
+        $('#main')
+            .html(
+                '<div id="info">'+
+                    'Select your co-authors! Everyone<br />will get the chance to '+
+                    'write<br />at least 2 sections of the story.'+
+                '</div>'
+            ).append($('<div id="create"></div>')
+                .append($('<a href="#">Log In to Find Friends</a>').click(logIn)));
+    };
+    var logIn = function(e) {
+        e.preventDefault();
+        $('#main').html('<div id="loading"><img src="imgs/loading.svg" alt="Loading" width="50px" /></div>');
+        firebase.auth().signInWithPopup(prov).then(function (result) {
+            localStorage['fbToken'] = result.credential.accessToken;
+        }).catch(function (err) {
+            popuMain(logIn);
+            var msg = err.message;
+            if (err.code === 'auth/user-cancelled') {
+                msg = "You gotta authorise the Noveltee app on Facebook before you can use it!";
+            }
+            $('#err').html(msg);
+        });
+    };
+    popuMain(logIn);
+};
+</script>
+<script src="js/nv.js"></script>
+</html>
